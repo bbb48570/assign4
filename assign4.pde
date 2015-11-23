@@ -2,20 +2,35 @@ final int Game_Start=0;
 final int Game_Play=1;
 final int Game_GG=2;
 
-final int EA=3,EB=4,EC=5,ED=6;
+int mode,s,ego=0,enemylose,shoothave=0,shootnum=0,f=5,bownX,bownY;
+int [] enemyX=new int[8];
+int [] enemyY=new int[8];
+int [] shootX=new int[5];
+int [] shootY=new int[5];
+boolean[] enemyhave=new boolean[8];
+boolean[] shootleave=new boolean[5];
+PImage shoot;
 
+
+
+final int EA=3,EB=4,EC=5,ED=6;
 
 int flame=5;
 int flameX;
+
+
 PImage [] flam = new PImage [flame];
 
 PImage background1Img;
 PImage background2Img;
 PImage background3Img;
+
 PImage start1;
 PImage start2;
+
 PImage end1;
 PImage end2;
+
 PImage ship;
 PImage hp;
 PImage enemy;
@@ -34,7 +49,8 @@ int[] Z=new int [5];
 
 
 void setup(){
-  
+  fighterX=width-50;
+  fighterY=height/2;
   size(640,480);
   background1Img=loadImage("img/bg1.png");
   background2Img=loadImage("img/bg2.png");
@@ -113,6 +129,9 @@ void draw(){
     {
     int c = (flameX++)%flame;
     image(flam[c],X[i],Y[i]);
+    hpp-=39;
+    X[i]=1000;
+    Y[i]=1000;
     }
    }
      if(X[4]>=640){
@@ -150,6 +169,7 @@ void draw(){
     {
     int c = (flameX++)%flame;
     image(flam[c],X[i],Y[i]);
+    hpp-=39;
     }
      }
      
@@ -194,6 +214,7 @@ for (int i = 0; i < 5; i++) {
     {
     int c = (flameX++)%flame;
     image(flam[c],X[i],Y[i]);
+    hpp-=39;
     }
       
 }
@@ -279,10 +300,47 @@ for (int i = 0; i < 5; i++) {
    if (fighterX<=0){
       fighterX=0;}
  }
- 
+   for(int e=0;e<5;e++){ 
+    if(shootleave[e]){
+    image(shoot,shootX[e],shootY[e]);
+    if(shootX[e]>=-31)
+    shootX[e]-=3;
+    else{
+    shootleave[e]=false;
+    shoothave--;
+    }
+     }
+     }
+     for(int p=0;p<5;p++){
+       for(int r=0;r<8;r++){
+       if(shootleave[p]==true){
+       if(enemyhave[r]==true){
+       if(enemyX[r]+61>=shootX[p])
+       if(enemyX[r]+61>=shootX[p]&&(((shootY[p]>enemyY[r])&&(shootY[p]<enemyY[r]+61))||((shootY[p]+27>enemyY[r]) && (shootY[p]+27<enemyY[r]+61)))){
+     enemyhave[r]=false;
+     f=0;
+     bownX=enemyX[r];
+     bownY=enemyY[r];
+      shootleave[p]=false;
+    shoothave--;
+     }
+   }
+ }
+     
+     }
+     }
+     
+      for(int open=0;open<5;open++){
+    shootleave[open]=false;
+     enemyhave[open]=true;
+   }
+     
+     
 }
+ 
+
  void keyPressed(){
-    if(key==CODED){
+
    switch (keyCode){
    case UP:
        Up=true;
@@ -296,13 +354,12 @@ for (int i = 0; i < 5; i++) {
    case LEFT:
        Left=true;
        break;
-   }
+       
    }
   }
 
 
 void keyReleased(){
-    if(key==CODED){
    switch (keyCode){
     case UP:
       Up=false;
@@ -319,6 +376,6 @@ void keyReleased(){
       case ' ':
       op=false;
       break;
-   }
+   
    }
   }
