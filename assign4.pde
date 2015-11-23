@@ -88,14 +88,14 @@ void draw(){
   
   switch(Game_State){
     case Game_Start:
-    image(start2,0,0);  
+    image(start1,0,0);  
      if(mouseX>200&&mouseX<460&&mouseY>375&&mouseY<420){
       
      if (mousePressed){
      Game_State=EA;
      }else{  
      noStroke();
-     image(start1,0,0);}      
+     image(start2,0,0);}      
      }
      break;
    case EA:
@@ -248,7 +248,7 @@ for (int i = 0; i < 5; i++) {
   
   case Game_GG:
     
-    image(end2,0,0);  
+    image(end1,0,0);  
     
      if(mouseX>200&&mouseX<445&&mouseY>310&&mouseY<345){
           
@@ -262,7 +262,7 @@ for (int i = 0; i < 5; i++) {
      
      }else{  
      noStroke();
-     image(end1,0,0);}      
+     image(end2,0,0);}      
      }
       break; 
   
